@@ -46,65 +46,6 @@ class _DadosDoRioPageState extends State<DadosDoRioPage> {
               ],
             ),
             const SizedBox(height: 20),
-            CustomCard(
-              title: "Clique aqui para auxílio em ODr",
-              singleButtonText: "Ajuda",
-              onPressed: (action) {
-                showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                    child: Container(
-                      padding: const EdgeInsets.all(AppPaddings.defaultPadding),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Oxigênio dissolvido no rio",
-                            style: AppTextStyles.h1.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          const Divider(
-                            thickness: 2,
-                            color: Colors.grey,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              style: AppTextStyles.h3,
-                              text:
-                                  "",
-                              children: [
-                                TextSpan(
-                                  text: "Não sendo possível coletar amostras, pode-se estimar a concentração de ODr em função do grau de poluição do curso d’água:\n\n",
-                                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.bold,),
-                                ),
-                                TextSpan(
-                                  text: "● Curso d’água com poucos indícios de poluição:\n",
-                                  style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.bold)
-                                ),
-                                const TextSpan(
-                                  text: "ODr pode ser de 80 a 90% do valor de saturação de oxigênio do rio;\n\n",
-                                ),
-                                TextSpan(
-                                    text: "● Curso d'água bem poluído:\n",
-                                    style: AppTextStyles.h3.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                const TextSpan(
-                                  text: "incluir os principais focos poluidores (ODr será bem inferior ao teor de saturação).",
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-              children: const [],
-            )
           ],
         ),
       ),

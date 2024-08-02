@@ -17,16 +17,12 @@ class DadosRioStep1 extends StatefulWidget {
 class _DadosRioStep1State extends State<DadosRioStep1> {
   late final TextEditingController controller1;
   late final TextEditingController controller2;
-  late final TextEditingController controller3;
-  late final TextEditingController controller4;
   final GlobalBloc bloc = serviceLocator<GlobalBloc>();
 
   @override
   void initState() {
     controller1 = TextEditingController(text: bloc.qr.toText);
-    controller2 = TextEditingController(text: bloc.odr.toText);
-    controller3 = TextEditingController(text: bloc.dbor.toText);
-    controller4 = TextEditingController(text: bloc.odmin.toText);
+    controller2 = TextEditingController(text: bloc.nr.toText);
     super.initState();
   }
 
@@ -36,15 +32,10 @@ class _DadosRioStep1State extends State<DadosRioStep1> {
       title: "Dados do Rio",
       singleButtonText: "Concluir",
       onPressed: (action) {
-        if (controller1.text.isNotEmpty &&
-            controller2.text.isNotEmpty &&
-            controller3.text.isNotEmpty &&
-            controller4.text.isNotEmpty) {
+        if (controller1.text.isNotEmpty && controller2.text.isNotEmpty) {
           widget.onPressed(action);
           bloc.qr = controller1.text.asDouble;
-          bloc.odr = controller2.text.asDouble;
-          bloc.dbor = controller3.text.asDouble;
-          bloc.odmin = controller4.text.asDouble;
+          bloc.nr = controller2.text.asDouble;
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Dados incompletos"),
@@ -54,28 +45,17 @@ class _DadosRioStep1State extends State<DadosRioStep1> {
       },
       children: [
         CustomInput(
-          tooltip: "Vazão",
+          tooltip: "Vazão do rio",
           controller: controller1,
           title: "Qr",
           hintText: "m³/s",
         ),
         CustomInput(
           controller: controller2,
-          tooltip: "Oxigênio dissolvido",
-          title: "ODr",
-          hintText: "mg/L",
-        ),
-        CustomInput(
-          controller: controller3,
-          title: "DBOr",
-          tooltip: "Demanda bioquímica de oxigênio",
-          hintText: "mg/L",
-        ),
-        CustomInput(
-          controller: controller4,
-          title: "ODmin",
-          tooltip: "Oxigênio dissolvido mínimo",
-          hintText: "mg/L",
+          tooltip:
+              "Concentração de coliformes no rio, a montante do lançamento",
+          title: "Nr",
+          hintText: "NMP/100 mL",
         ),
       ],
     );

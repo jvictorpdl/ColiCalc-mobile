@@ -7,15 +7,10 @@ import 'package:flutter/material.dart';
 
 class GraficoPage extends StatefulWidget {
   final Map<String, dynamic> results;
-  final List<Color> odGradientColors = [
+  final List<Color> n0GradientColors = [
     const Color(0xff23b6e6).withOpacity(.6),
     const Color(0xff02d39a).withOpacity(.6),
   ];
-  final List<Color> odminGradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
-
   GraficoPage({super.key, required this.results});
 
   @override
@@ -23,24 +18,10 @@ class GraficoPage extends StatefulWidget {
 }
 
 class _GraficoPageState extends State<GraficoPage> {
-  List<FlSpot> generateOdData() {
+  List<FlSpot> generateN0Data() {
     List<FlSpot> data = [];
     List<double> x = widget.results["kmvet"];
-    List<double> y = widget.results["ctVet"];
-
-    for (int i = 0; i < x.length; i++) {
-      data.add(FlSpot(
-        double.parse(x[i].toStringAsFixed(2)),
-        double.parse(y[i].toStringAsFixed(2)),
-      ));
-    }
-    return data;
-  }
-
-  List<FlSpot> generateOdMinData() {
-    List<FlSpot> data = [];
-    List<double> x = widget.results["kmvet"];
-    List<double> y = widget.results["odminVet"];
+    List<double> y = widget.results["novet"];
 
     for (int i = 0; i < x.length; i++) {
       data.add(FlSpot(
@@ -52,26 +33,18 @@ class _GraficoPageState extends State<GraficoPage> {
   }
 
   (double x, double y) calculateGraphProportions() {
-    List<double> y1 = widget.results["odminVet"];
-    List<double> y2 = widget.results["ctVet"];
+    List<double> y1 = widget.results["novet"];
     List<double> x = widget.results["kmvet"];
 
-    double maxY = max(
-      y1.reduce(max),
-      y2.reduce(max),
-    );
+    double maxY = y1.reduce(max);
     return (x.reduce(max), maxY);
   }
 
   (double dX, double dY) calculateDelta() {
-    List<double> y1 = widget.results["odminVet"];
-    List<double> y2 = widget.results["ctVet"];
+    List<double> y1 = widget.results["novet"];
     List<double> x = widget.results["kmvet"];
 
-    double minY = min(
-      y1.reduce(min),
-      y2.reduce(min),
-    );
+    double minY = y1.reduce(min);
     return (x[1], minY);
   }
 
@@ -87,7 +60,7 @@ class _GraficoPageState extends State<GraficoPage> {
             Column(
               children: [
                 Text(
-                  "Perfil de OD (mg/L)",
+                  "Perfil da concentração de coliformes ao longo da distância - N (org/100 mL)",
                   style: AppTextStyles.h1,
                 ),
                 Row(
@@ -134,7 +107,7 @@ class _GraficoPageState extends State<GraficoPage> {
                           ),
                           lineBarsData: [
                             LineChartBarData(
-                              spots: generateOdData(),
+                              spots: generateN0Data(),
                               color: const Color(0xff23b6e6),
                               barWidth: 5,
                               // isCurved: true,
@@ -142,17 +115,9 @@ class _GraficoPageState extends State<GraficoPage> {
                               belowBarData: BarAreaData(
                                 show: true,
                                 gradient: LinearGradient(
-                                  colors: widget.odGradientColors,
+                                  colors: widget.n0GradientColors,
                                 ),
                               ),
-                            ),
-                            LineChartBarData(
-                              //Spots do ODmin aqui
-                              spots: generateOdMinData(),
-                              barWidth: 5,
-                              color: const Color(0xff02d39a),
-                              preventCurveOverShooting: true,
-                              dotData: const FlDotData(show: false),
                             ),
                           ],
                         ),
@@ -173,18 +138,12 @@ class _GraficoPageState extends State<GraficoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
-                  backgroundColor: widget.odGradientColors.first,
+                  backgroundColor: widget.n0GradientColors.first,
                   radius: 5,
                 ),
                 const SizedBox(width: 2),
-                const Text("ODmin"),
+                const Text("N0"),
                 const SizedBox(width: 10),
-                CircleAvatar(
-                  backgroundColor: widget.odGradientColors.last,
-                  radius: 5,
-                ),
-                const SizedBox(width: 2),
-                const Text("OD"),
               ],
             ),
             const SizedBox(height: 18.0),
@@ -205,24 +164,6 @@ class _GraficoPageState extends State<GraficoPage> {
                     "Calcular novamente",
                     style: AppTextStyles.h3.copyWith(
                       color: AppColors.accent,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushReplacementNamed("/recalcular"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    "Simular novamente",
-                    style: AppTextStyles.h3.copyWith(
-                      color: Colors.white,
                     ),
                   ),
                 ),

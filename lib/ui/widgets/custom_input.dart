@@ -56,8 +56,7 @@ class _CustomInputState extends State<CustomInput> {
                   decimal: true,
                 ),
                 inputFormatters: [
-                  LengthLimitingTextInputFormatter(
-                      7), // Limita o número de caracteres
+                  // Limita o número de caracteres
                   FilteringTextInputFormatter.allow(
                       RegExp(r'^\d+\.?\d*')), // Permite números decimais
                 ],

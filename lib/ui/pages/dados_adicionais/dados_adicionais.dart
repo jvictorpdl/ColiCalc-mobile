@@ -1,7 +1,4 @@
 import 'package:auto_depura/ui/pages/dados_adicionais/steps/dados_adicionais_step1.dart';
-import 'package:auto_depura/ui/pages/dados_adicionais/steps/dados_adicionais_step2.dart';
-import 'package:auto_depura/ui/pages/dados_adicionais/steps/dados_adicionais_step3.dart';
-import 'package:auto_depura/ui/pages/dados_adicionais/steps/dados_adicionais_step4.dart';
 import 'package:auto_depura/ui/pages/widgets/custom_card.dart';
 import 'package:auto_depura/ui/theme/app_theme.dart';
 import 'package:auto_depura/ui/widgets/app_title.dart';
@@ -17,19 +14,7 @@ class DadosAdicionaisPage extends StatefulWidget {
 class _DadosAdicionaisPageState extends State<DadosAdicionaisPage> {
   int index = 0;
   void onPressed(CustomCardAction action) {
-    switch (action) {
-      case CustomCardAction.previous:
-        if (index >= 1){ setState(() => index--);}
-        else{Navigator.of(context).pushReplacementNamed("/home");}
-        break;
-      case CustomCardAction.next:
-        // se index menor ou igual a total de steps - 1:
-        if (index < 3){ setState(() => index++);}else{
-        Navigator.of(context).pushReplacementNamed("/home");
-        } 
-
-        break;
-    }
+    Navigator.of(context).pushReplacementNamed("/home");
   }
 
   @override
@@ -49,13 +34,8 @@ class _DadosAdicionaisPageState extends State<DadosAdicionaisPage> {
               index: index,
               children: [
                 DadosAdicionaisStep1(onPressed: onPressed),
-                DadosAdicionaisStep2(onPressed: onPressed),
-                DadosAdicionaisStep3(onPressed: onPressed),
-                DadosAdicionaisStep4(onPressed: onPressed),
               ],
             ),
-           
-            
           ],
         ),
       ),
