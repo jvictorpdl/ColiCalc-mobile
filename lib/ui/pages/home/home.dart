@@ -58,15 +58,21 @@ class HomePage extends StatelessWidget {
                 ),
                 const Spacer(flex: 4),
                 HomeButtons(
-                  title: "Dados do Rio",
+                  title: "Dados do rio",
                   onPressed: () =>
                       Navigator.of(context).pushNamed("/dados-do-rio"),
                 ),
                 const Spacer(),
                 HomeButtons(
-                  title: "Dados do Esgoto",
+                  title: "Dados do esgoto",
                   onPressed: () =>
                       Navigator.of(context).pushNamed("/dados-do-esgoto"),
+                ),
+                const Spacer(),
+                HomeButtons(
+                  title: "Dados da mistura",
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed("/dados-da-mistura"),
                 ),
                 const Spacer(),
                 HomeButtons(
