@@ -11,7 +11,7 @@ class AppTitle extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Text(
-        "AUTODEPURA",
+        "COLICALC",
         style: AppTextStyles.h1.copyWith(
           fontWeight: FontWeight.bold,
         ),

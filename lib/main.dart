@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Auto Depura',
+      title: 'ColiCalc',
       locale: const Locale("pt-BR"),
       onGenerateRoute: Routes.onGenerateRoute,
       initialRoute: "/home",
