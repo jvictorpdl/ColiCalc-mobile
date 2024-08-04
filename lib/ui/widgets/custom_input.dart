@@ -24,21 +24,20 @@ class _CustomInputState extends State<CustomInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //perguntar onde encaixar a tooltip para ela ficar acima do title
         Row(
           children: [
             Text(
               widget.title,
-              style: AppTextStyles.h3.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: AppTextStyles.h3.copyWith(fontWeight: FontWeight.w600),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
               child: Tooltip(
                 message: widget.tooltip,
                 triggerMode: TooltipTriggerMode.tap,
                 waitDuration: Duration.zero,
+                preferBelow: false,
                 child: Icon(
                   Icons.info_outline,
                   color: AppColors.accent,
