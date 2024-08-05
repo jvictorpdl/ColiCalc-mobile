@@ -39,7 +39,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       qAfluente,
       nRepresa,
       nRepresaMax;
-  bool? represa = false;
+  bool represa = false;
   List<double> particoesVet = [];
   List<double> ntempoVet = [];
   List<double> kmvet = [];
@@ -106,21 +106,32 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
         }
       }
     } else {
-      // dev.log('ENTROU EM REPRESA!!!');
+      dev.log('ENTROU EM REPRESA!!!');
       qAfluente = qr! + qe!;
+      dev.log('qAfluente: ${qAfluente}');
+
       kbt = kb! * pow(teta!, (temperatura! - 20));
+      dev.log('kbt: ${kbt}');
+
       tDentencao = volume! / (qAfluente! * 86400);
+      dev.log('tDentencao: ${tDentencao}');
 
       nRepresa = nop! * (1 + (kbt! * tDentencao!));
+      dev.log('nRepresa: ${nRepresa}');
 
       if (nRepresa! > nop!) {
         nRepresaMax = nop! * (1 + kbt! * tDentencao!);
+        dev.log('nRepresaMax: ${nRepresaMax}');
+
         nep = (nRepresaMax! * (qr! + qe!) - qr! * nr!) / qe!;
+        dev.log('nep: ${nep}');
+
         eficiencia = (ne! - nep!) / ne!;
       } else {
         eficiencia = -1;
       }
     }
+    dev.log('Eficiencia: ${eficiencia}');
 
     Map<String, dynamic> resultado2 = {
       'eficiencia': convertToPercentage(eficiencia),
@@ -129,6 +140,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       'kmvet': kmvet,
       'novet': novet
     };
+    // dev.log('$resultado2');
 
     return resultado2;
   }
@@ -143,27 +155,27 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
 
   void setupTest() {
     qr = 0.651;
-    qe = 0.114;
-    temperatura = 23;
-    no = 0;
-    nop = 1000;
     nr = 10;
+    volume = 5000000;
+    qe = 0.114;
     ne = 50000000;
+    nop = 1000;
+    temperatura = 23;
+    distancia = 50000;
+    velocidade = 0.35;
+    kb = 1;
+    teta = 1.07;
+    particoes = 10;
+    no = 0;
     ntempo = 0;
     nep = 0;
-    kb = 1;
     kbt = 0;
-    teta = 1.07;
     eficiencia = 0;
     tempo = 0;
-    velocidade = 0.35;
-    distancia = 50000;
-    particoes = 10;
     classLimit = 0;
     represa = false;
     tRepresa = 0;
     tDentencao = 0;
-    volume = 5000000;
     qAfluente = 0;
     nRepresa = 0;
     nRepresaMax = 0;

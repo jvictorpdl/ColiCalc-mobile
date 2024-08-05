@@ -1,6 +1,8 @@
 import 'dart:math';
-
+import 'package:auto_depura/core/bloc/global_bloc.dart';
+import 'package:auto_depura/core/services/service_locator.dart';
 import 'package:auto_depura/ui/pages/grafico/line_titles.dart';
+import 'package:auto_depura/ui/pages/widgets/custom_card.dart';
 import 'package:auto_depura/ui/theme/app_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,8 @@ class GraficoPage extends StatefulWidget {
 }
 
 class _GraficoPageState extends State<GraficoPage> {
+  double maxX = 0, maxY = 0;
+  double minX = 0, minY = 0;
   List<FlSpot> generateN0Data() {
     List<FlSpot> data = [];
     List<double> x = widget.results["kmvet"];
@@ -48,92 +52,125 @@ class _GraficoPageState extends State<GraficoPage> {
     return (x[1], minY);
   }
 
+  final GlobalBloc bloc = serviceLocator<GlobalBloc>();
+
   @override
   Widget build(BuildContext context) {
-    var (maxX, maxY) = calculateGraphProportions();
-    var (minX, minY) = calculateDelta();
-    calculateDelta();
+    if (!bloc.represa) {
+      var resultProportions = calculateGraphProportions();
+      var resultDelta = calculateDelta();
+      maxX = resultProportions.$1;
+      maxY = resultProportions.$2;
+      minX = resultDelta.$1;
+      minY = resultDelta.$2;
+
+      // (maxX, maxY) = calculateGraphProportions();
+      // (minX, minY) = calculateDelta();
+      calculateDelta();
+    }
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            Column(
-              children: [
-                Text(
-                  "Perfil da concentração de coliformes ao longo da distância - N (org/100 mL)",
-                  style: AppTextStyles.h1,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    RotatedBox(
-                      quarterTurns: 1,
-                      child: Text("OD (mg/L)", style: AppTextStyles.h2),
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * .7,
-                      width: MediaQuery.of(context).size.width * .9,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+            !bloc.represa
+                ? Column(
+                    children: [
+                      Text(
+                        "Perfil da concentração de coliformes ao longo da distância - N (org/100 mL)",
+                        style: AppTextStyles.titleGraph,
+                        textAlign: TextAlign.center,
                       ),
-                      child: LineChart(
-                        LineChartData(
-                          minX: 0,
-                          maxX: maxX + minX,
-                          minY: 0,
-                          maxY: maxY + minY,
-                          clipData: const FlClipData.all(),
-                          backgroundColor: const Color(0xfffefefe),
-                          titlesData: LineTitles.getTitleData(),
-                          gridData: FlGridData(
-                            show: true,
-                            getDrawingHorizontalLine: (value) => const FlLine(
-                              color: Color.fromARGB(68, 121, 131, 141),
-                              strokeWidth: 1,
-                            ),
-                            drawVerticalLine: true,
-                            getDrawingVerticalLine: (value) => const FlLine(
-                              color: Color.fromARGB(68, 121, 131, 141),
-                              strokeWidth: 1,
-                            ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          RotatedBox(
+                            quarterTurns: 1,
+                            child: Text("OD (mg/L)", style: AppTextStyles.h2),
                           ),
-                          borderData: FlBorderData(
-                            show: true,
-                            border: Border.all(
-                              color: const Color(0xff37434d),
-                              width: 1,
+                          Container(
+                            height: MediaQuery.of(context).size.height * .6,
+                            width: MediaQuery.of(context).size.width * .8,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
                             ),
-                          ),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: generateN0Data(),
-                              color: const Color(0xff23b6e6),
-                              barWidth: 5,
-                              // isCurved: true,
-                              // preventCurveOverShooting: true,
-                              belowBarData: BarAreaData(
-                                show: true,
-                                gradient: LinearGradient(
-                                  colors: widget.n0GradientColors,
+                            child: LineChart(
+                              LineChartData(
+                                minX: 0,
+                                maxX: maxX + minX,
+                                minY: 0,
+                                maxY: maxY + minY,
+                                clipData: const FlClipData.all(),
+                                backgroundColor: const Color(0xfffefefe),
+                                titlesData: LineTitles.getTitleData(),
+                                gridData: FlGridData(
+                                  show: true,
+                                  getDrawingHorizontalLine: (value) =>
+                                      const FlLine(
+                                    color: Color.fromARGB(68, 121, 131, 141),
+                                    strokeWidth: 1,
+                                  ),
+                                  drawVerticalLine: true,
+                                  getDrawingVerticalLine: (value) =>
+                                      const FlLine(
+                                    color: Color.fromARGB(68, 121, 131, 141),
+                                    strokeWidth: 1,
+                                  ),
                                 ),
+                                borderData: FlBorderData(
+                                  show: true,
+                                  border: Border.all(
+                                    color: const Color(0xff37434d),
+                                    width: 1,
+                                  ),
+                                ),
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: generateN0Data(),
+                                    color: const Color(0xff23b6e6),
+                                    barWidth: 5,
+                                    // isCurved: true,
+                                    // preventCurveOverShooting: true,
+                                    belowBarData: BarAreaData(
+                                      show: true,
+                                      gradient: LinearGradient(
+                                        colors: widget.n0GradientColors,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
 
-                        //  swapAnimationDuration: const Duration(milliseconds: 150), // Optional
-                        //  swapAnimationCurve: Curves.linear,
+                              //  swapAnimationDuration: const Duration(milliseconds: 150), // Optional
+                              //  swapAnimationCurve: Curves.linear,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Text(
-                  "Distância (KM)",
-                  style: AppTextStyles.h2,
-                )
-              ],
-            ),
+                      Text(
+                        "Distância (KM)",
+                        style: AppTextStyles.h2,
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      CustomCard(
+                        title:
+                            // "Valor resultante de eficiência: ${bloc.eficiencia!}",
+                            "Valor resultante de eficiência: ${convertToPercentage(bloc.eficiencia!)}",
+                        onPressed: (action) {
+                          Navigator.of(context).pushReplacementNamed("/home");
+                        },
+                        showButtons: false,
+                        height: 500,
+                        children: [
+                          const Text('Valor resultante de eficiência: '),
+                          Text('${bloc.eficiencia}')
+                        ],
+                      )
+                    ],
+                  ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -142,7 +179,7 @@ class _GraficoPageState extends State<GraficoPage> {
                   radius: 5,
                 ),
                 const SizedBox(width: 2),
-                const Text("N0"),
+                const Text("N0 asdasd"),
                 const SizedBox(width: 10),
               ],
             ),

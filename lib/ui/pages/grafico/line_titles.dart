@@ -1,8 +1,18 @@
 import 'package:auto_depura/ui/theme/app_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
-//sou incompetente consegui nao
+// Função para formatar os rótulos do eixo Y
+String formatYAxisLabel(double value) {
+  if (value == 0.0) return '1,00E+00';
+  int exponent = log(value) ~/ ln10;
+  double baseValue = value / pow(10, exponent);
+  String formattedCoefficient = '1,00';
+  String formattedExponentString = exponent >= 0 ? '+$exponent' : '$exponent';
+  return '$formattedCoefficient E$formattedExponentString';
+}
+
 class LineTitles {
   static getTitleData() => const FlTitlesData(
         show: true,
@@ -23,6 +33,15 @@ class LineTitles {
 
   static Widget leftTitles(double value, TitleMeta meta) {
     TextStyle style = AppTextStyles.h3.copyWith(fontSize: 12);
-    return Text(value.toStringAsFixed(1), style: style);
+    return Padding(
+      padding: const EdgeInsets.only(right: 5.0),
+      child: Text(
+        formatYAxisLabel(value),
+        style: style,
+        overflow: TextOverflow.visible, // Garante que o texto não será cortado
+        softWrap:
+            false, // Garante que o texto não será quebrado em várias linhas
+      ),
+    );
   }
 }
