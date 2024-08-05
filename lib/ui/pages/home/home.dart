@@ -11,9 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final GlobalBloc bloc = serviceLocator<GlobalBloc>();
@@ -58,10 +63,31 @@ class HomePage extends StatelessWidget {
                 ),
                 const Spacer(flex: 4),
                 HomeButtons(
-                  title: "Dados do rio",
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed("/dados-do-rio"),
-                ),
+                    title: "Dados do rio",
+                    isActive: bloc.represa,
+                    onPressed: () {
+                      if (bloc.represa) {
+                        Navigator.of(context).pushNamed("/dados-do-rio");
+                      } else {
+                        bloc.represa = !bloc.represa;
+                        setState(() {});
+                      }
+                      // Navigator.of(context).pushNamed("/dados-do-rio"),
+                    }),
+                const Spacer(),
+                HomeButtons(
+                    title: "Dados da represa",
+                    isActive: !bloc.represa,
+                    onPressed: () {
+                      print(bloc.represa);
+                      if (!bloc.represa) {
+                        Navigator.of(context).pushNamed("/dados-da-represa");
+                      } else {
+                        bloc.represa = !bloc.represa;
+                        setState(() {});
+                      }
+                      // Navigator.of(context).pushNamed("/dados-do-rio"),
+                    }),
                 const Spacer(),
                 HomeButtons(
                   title: "Dados do esgoto",

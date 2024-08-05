@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class PlusButton extends StatelessWidget {
   final Function() onPressed;
-
-  const PlusButton({super.key, required this.onPressed});
+  final Color? color;
+  const PlusButton({super.key, required this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class PlusButton extends StatelessWidget {
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: AppColors.accent,
+          color: color ?? AppColors.accent,
         ),
         child: const Icon(
           Icons.add,

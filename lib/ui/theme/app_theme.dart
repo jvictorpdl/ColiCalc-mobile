@@ -19,6 +19,10 @@ class AppTextStyles {
     color: Colors.black,
     fontSize: 18,
   );
+  static TextStyle titleGraph = TextStyle(
+    color: AppColors.accent,
+    fontSize: 18,
+  );
   static TextStyle h3 = const TextStyle(
     color: Colors.black,
     fontSize: 16,

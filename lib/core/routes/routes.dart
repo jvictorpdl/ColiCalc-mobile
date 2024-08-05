@@ -2,9 +2,10 @@ import 'package:auto_depura/ui/pages/dados_do_rio/dados_do_rio.dart';
 import 'package:auto_depura/ui/pages/dados_do_esgoto/dados_do_esgoto.dart';
 import 'package:auto_depura/ui/pages/dados_adicionais/dados_adicionais.dart';
 import 'package:auto_depura/ui/pages/dados_da_mistura/dados_da_mistura.dart';
+import 'package:auto_depura/ui/pages/dados_da_represa/dados_da_represa.dart';
 import 'package:auto_depura/ui/pages/grafico/grafico.dart';
 import 'package:auto_depura/ui/pages/home/home.dart';
-import 'package:auto_depura/ui/pages/tables/custom_table.dart';
+// import 'package:auto_depura/ui/pages/tables/custom_table.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -18,6 +19,10 @@ class Routes {
       case "/dados-do-rio":
         return MaterialPageRoute(
           builder: (context) => const DadosDoRioPage(),
+        );
+      case "/dados-da-represa":
+        return MaterialPageRoute(
+          builder: (context) => const DadosDaRepresaPage(),
         );
       case "/dados-do-esgoto":
         return MaterialPageRoute(
