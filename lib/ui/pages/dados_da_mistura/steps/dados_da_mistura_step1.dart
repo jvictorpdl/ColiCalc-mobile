@@ -32,6 +32,7 @@ class _DadosDaMisturaStep1State extends State<DadosDaMisturaStep1> {
       children: [
         CustomCard(
           title: "Dados morfométricos e ambientais",
+          singleButtonText: "Concluir",
           onPressed: (action) {
             if (controller1.text.isNotEmpty) {
               widget.onPressed(action);

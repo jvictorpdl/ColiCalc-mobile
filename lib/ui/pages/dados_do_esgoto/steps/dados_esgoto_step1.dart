@@ -33,6 +33,7 @@ class _DadosEsgotoStep1State extends State<DadosEsgotoStep1> {
       children: [
         CustomCard(
           title: "Dados do Esgoto",
+          singleButtonText: "Concluir",
           onPressed: (action) {
             if (controller1.text.isNotEmpty && controller2.text.isNotEmpty) {
               widget.onPressed(action);

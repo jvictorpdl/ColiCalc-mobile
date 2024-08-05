@@ -42,6 +42,7 @@ class _DadosAdicionaisStep1State extends State<DadosAdicionaisStep1> {
       children: [
         CustomCard(
           title: "Dados morfométricos e ambientais",
+          singleButtonText: "Concluir",
           onPressed: (action) {
             if ((controller1.text.isNotEmpty &&
                     controller2.text.isNotEmpty &&
