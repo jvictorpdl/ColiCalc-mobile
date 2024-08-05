@@ -64,9 +64,11 @@ class _HomePageState extends State<HomePage> {
                 const Spacer(flex: 4),
                 HomeButtons(
                     title: "Dados do rio",
-                    isActive: bloc.represa,
+                    isActive: !bloc.represa,
                     onPressed: () {
-                      if (bloc.represa) {
+                      print(bloc.represa);
+
+                      if (!bloc.represa) {
                         Navigator.of(context).pushNamed("/dados-do-rio");
                       } else {
                         bloc.represa = !bloc.represa;
@@ -77,10 +79,10 @@ class _HomePageState extends State<HomePage> {
                 const Spacer(),
                 HomeButtons(
                     title: "Dados da represa",
-                    isActive: !bloc.represa,
+                    isActive: bloc.represa,
                     onPressed: () {
                       print(bloc.represa);
-                      if (!bloc.represa) {
+                      if (bloc.represa) {
                         Navigator.of(context).pushNamed("/dados-da-represa");
                       } else {
                         bloc.represa = !bloc.represa;

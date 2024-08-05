@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 class HomeButtons extends StatelessWidget {
   final String title;
   final Function() onPressed;
-  const HomeButtons({
-    super.key,
-    required this.title,
-    required this.onPressed,
-  });
+  final bool isActive;
+  const HomeButtons(
+      {super.key,
+      required this.title,
+      required this.onPressed,
+      this.isActive = true});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class HomeButtons extends StatelessWidget {
                 const Spacer(),
                 PlusButton(
                   onPressed: onPressed,
+                  color: isActive ? AppColors.accent : Colors.grey,
                 )
               ],
             ),
