@@ -31,7 +31,7 @@ class _DadosDaMisturaStep1State extends State<DadosDaMisturaStep1> {
     return Column(
       children: [
         CustomCard(
-          title: "Dados morfométricos e ambientais",
+          title: "Dados da mistura",
           singleButtonText: "Concluir",
           onPressed: (action) {
             if (controller1.text.isNotEmpty) {
