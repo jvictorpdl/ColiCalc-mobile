@@ -11,7 +11,7 @@ part 'global_bloc.freezed.dart';
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(const _Initial()) {
     on<_Calculate>(_onCalculate);
-    setupTest();
+    // setupTest();
   }
 
   final double neperiano = 2.7182818285;
@@ -45,24 +45,38 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   List<double> kmvet = [];
   List<double> novet = [];
 
-  bool get checkAllNumbersFilled => represa != null;
-  // qr != null &&
-  // nr != null &&
-  // qe != null &&
-  // ne != null &&
-  // nop != null &&
-  // temperatura != null &&
-  // distancia != null &&
-  // velocidade != null &&
-  // kb != null &&
-  // teta != null &&
-  // particoes != null;
-  // volume != null;
+  bool get checkAllNumbersFilled =>
+      (represa == false &&
+          qr != null &&
+          nr != null &&
+          qe != null &&
+          ne != null &&
+          nop != null &&
+          temperatura != null &&
+          distancia != null &&
+          velocidade != null &&
+          kb != null &&
+          teta != null &&
+          particoes != null) ||
+      (represa == true &&
+          qr != null &&
+          nr != null &&
+          qe != null &&
+          ne != null &&
+          nop != null &&
+          temperatura != null &&
+          distancia != null &&
+          velocidade != null &&
+          kb != null &&
+          teta != null &&
+          particoes != null &&
+          volume != null);
+  //
 
   void _onCalculate(_Calculate event, Emitter<GlobalState> emit) async {
     dev.log("onCalculated chamado");
     emit(const GlobalState.calculating());
-    setupTest();
+    // setupTest();
     final results = calcularResultado();
     dev.log("emitindo");
     emit(GlobalState.calculated(results));
