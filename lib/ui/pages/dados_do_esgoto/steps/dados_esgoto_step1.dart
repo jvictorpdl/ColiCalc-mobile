@@ -54,7 +54,7 @@ class _DadosEsgotoStep1State extends State<DadosEsgotoStep1> {
               hintText: "m³/s",
             ),
             CustomInput(
-              tooltip: "Oxigênio dissolvido",
+              tooltip: "Concentração de coliformes nos esgotos",
               controller: controller2,
               title: "Ne",
               hintText: "org/100mL",
