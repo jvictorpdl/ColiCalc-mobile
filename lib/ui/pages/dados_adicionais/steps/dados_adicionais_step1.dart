@@ -96,7 +96,8 @@ class _DadosAdicionaisStep1State extends State<DadosAdicionaisStep1> {
             ),
             CustomInput(
               controller: controller6,
-              tooltip: "Quantidade de segmentos",
+              tooltip:
+                  "Quantidade de segmentos ao longo do percurso a serem analisados",
               title: "Nº trechos",
               hintText: "Quantidade",
             ),
