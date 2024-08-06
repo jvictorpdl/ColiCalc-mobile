@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:auto_depura/core/bloc/global_bloc.dart';
 import 'package:auto_depura/core/services/service_locator.dart';
 import 'package:auto_depura/ui/pages/grafico/line_titles.dart';
@@ -22,6 +23,18 @@ class GraficoPage extends StatefulWidget {
 class _GraficoPageState extends State<GraficoPage> {
   double maxX = 0, maxY = 0;
   double minX = 0, minY = 0;
+
+  String formatScientific(double value) {
+    String exponentialForm = value.toStringAsExponential(2);
+    List<String> parts = exponentialForm.split('e');
+    String coefficient =
+        double.parse(parts[0]).toStringAsFixed(2).replaceAll('.', ',');
+    int exponent = int.parse(parts[1]);
+    String sign = exponent >= 0 ? '+' : '';
+    String formattedExponentString = exponent.abs().toString().padLeft(2, '0');
+    return '$coefficient E$sign$formattedExponentString';
+  }
+
   List<FlSpot> generateN0Data() {
     List<FlSpot> data = [];
     List<double> x = widget.results["kmvet"];
@@ -63,11 +76,8 @@ class _GraficoPageState extends State<GraficoPage> {
       maxY = resultProportions.$2;
       minX = resultDelta.$1;
       minY = resultDelta.$2;
-
-      // (maxX, maxY) = calculateGraphProportions();
-      // (minX, minY) = calculateDelta();
-      calculateDelta();
     }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -85,11 +95,12 @@ class _GraficoPageState extends State<GraficoPage> {
                         children: [
                           RotatedBox(
                             quarterTurns: 1,
-                            child: Text("OD (mg/L)", style: AppTextStyles.h2),
+                            child:
+                                Text("CF (org/100ml)", style: AppTextStyles.h2),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * .6,
-                            width: MediaQuery.of(context).size.width * .8,
+                            height: MediaQuery.of(context).size.height * .65,
+                            width: MediaQuery.of(context).size.width * .9,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 8,
@@ -129,20 +140,35 @@ class _GraficoPageState extends State<GraficoPage> {
                                     spots: generateN0Data(),
                                     color: const Color(0xff23b6e6),
                                     barWidth: 5,
-                                    // isCurved: true,
-                                    // preventCurveOverShooting: true,
                                     belowBarData: BarAreaData(
                                       show: true,
                                       gradient: LinearGradient(
                                         colors: widget.n0GradientColors,
                                       ),
                                     ),
+                                    dotData: FlDotData(show: true),
                                   ),
                                 ],
+                                lineTouchData: LineTouchData(
+                                  touchTooltipData: LineTouchTooltipData(
+                                    tooltipBgColor: Colors.blueAccent,
+                                    getTooltipItems:
+                                        (List<LineBarSpot> touchedSpots) {
+                                      return touchedSpots.map((touchedSpot) {
+                                        final textStyle = TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        );
+                                        final text =
+                                            formatScientific(touchedSpot.y) +
+                                                " org/100ml";
+                                        return LineTooltipItem(text, textStyle);
+                                      }).toList();
+                                    },
+                                  ),
+                                ),
                               ),
-
-                              //  swapAnimationDuration: const Duration(milliseconds: 150), // Optional
-                              //  swapAnimationCurve: Curves.linear,
                             ),
                           ),
                         ],
@@ -150,39 +176,51 @@ class _GraficoPageState extends State<GraficoPage> {
                       Text(
                         "Distância (KM)",
                         style: AppTextStyles.h2,
-                      )
+                      ),
+                      Text(
+                        "Eficiencia de tratamento necessária: ${convertToPercentage(bloc.eficiencia!)}",
+                        style: AppTextStyles.h3,
+                      ),
                     ],
                   )
                 : Column(
                     children: [
-                      CustomCard(
-                        title:
-                            // "Valor resultante de eficiência: ${bloc.eficiencia!}",
-                            "Valor resultante de eficiência: ${convertToPercentage(bloc.eficiencia!)}",
-                        onPressed: (action) {
-                          Navigator.of(context).pushReplacementNamed("/home");
-                        },
-                        showButtons: false,
-                        height: 500,
-                        children: [
-                          const Text('Valor resultante de eficiência: '),
-                          Text('${bloc.eficiencia}')
-                        ],
+                      Container(
+                        height: MediaQuery.of(context).size.height * .65,
+                        width: MediaQuery.of(context).size.width * .9,
+                        child: CustomCard(
+                          title: "",
+                          onPressed: (action) {
+                            Navigator.of(context).pushReplacementNamed("/home");
+                          },
+                          showButtons: false,
+                          height: 250,
+                          children: [
+                            Text(
+                              'Valor resultante de eficiência: ${convertToPercentage(bloc.eficiencia!)}',
+                              style: AppTextStyles.h1,
+                              textAlign: TextAlign.center,
+                            ),
+
+                            // Text('${bloc.eficiencia}')
+                          ],
+                        ),
                       )
                     ],
                   ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundColor: widget.n0GradientColors.first,
-                  radius: 5,
-                ),
-                const SizedBox(width: 2),
-                const Text("N0 asdasd"),
-                const SizedBox(width: 10),
-              ],
-            ),
+            //row retirada pois achei desnecessaria a legenda, mas pode ser adicionada depois caso a orientadora prefira
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     CircleAvatar(
+            //       backgroundColor: widget.n0GradientColors.first,
+            //       radius: 5,
+            //     ),
+            //     const SizedBox(width: 2),
+            //     const Text("N0 LEGENDA"),
+            //     const SizedBox(width: 10),
+            //   ],
+            // ),
             const SizedBox(height: 18.0),
             ButtonBar(
               children: [
@@ -192,9 +230,7 @@ class _GraficoPageState extends State<GraficoPage> {
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColors.accent),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   child: Text(
@@ -205,7 +241,7 @@ class _GraficoPageState extends State<GraficoPage> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
