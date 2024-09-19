@@ -52,6 +52,8 @@ flutter_icons:
   android: true 
   ios: true 
   image_path: "assets/Logo.png"
+  adaptive_icon_background: "#fafafa"
+  adaptive_icon_foreground: "assets/Logo.svg"
 
 
 
