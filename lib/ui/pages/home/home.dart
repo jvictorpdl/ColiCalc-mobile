@@ -66,8 +66,7 @@ class _HomePageState extends State<HomePage> {
                     title: "Dados do rio",
                     isActive: !bloc.represa,
                     onPressed: () {
-                      print(bloc.represa);
-
+                      // print(bloc.represa);
                       if (!bloc.represa) {
                         Navigator.of(context).pushNamed("/dados-do-rio");
                       } else {
@@ -81,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                     title: "Dados da represa",
                     isActive: bloc.represa,
                     onPressed: () {
-                      print(bloc.represa);
+                      // print(bloc.represa);
                       if (bloc.represa) {
                         Navigator.of(context).pushNamed("/dados-da-represa");
                       } else {

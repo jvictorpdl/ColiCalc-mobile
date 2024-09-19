@@ -186,8 +186,9 @@ class _GraficoPageState extends State<GraficoPage> {
                 : Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * .65,
+                        height: MediaQuery.of(context).size.height * .80,
                         width: MediaQuery.of(context).size.width * .9,
+                        alignment: Alignment.center,
                         child: CustomCard(
                           title: "",
                           onPressed: (action) {
@@ -196,18 +197,26 @@ class _GraficoPageState extends State<GraficoPage> {
                           showButtons: false,
                           height: 250,
                           children: [
-                            Text(
-                              'Valor resultante de eficiência: ${convertToPercentage(bloc.eficiencia!)}',
-                              style: AppTextStyles.h1,
-                              textAlign: TextAlign.center,
-                            ),
+                            // Centraliza o texto verticalmente e horizontalmente
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .center, // Centraliza verticalmente
 
-                            // Text('${bloc.eficiencia}')
+                              children: [
+                                Text(
+                                  'Valor resultante de eficiência: ${convertToPercentage(bloc.eficiencia!)}',
+                                  style: AppTextStyles.h1,
+                                  textAlign: TextAlign
+                                      .center, // Centraliza horizontalmente
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       )
                     ],
                   ),
+
             //row retirada pois achei desnecessaria a legenda, mas pode ser adicionada depois caso a orientadora prefira
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
